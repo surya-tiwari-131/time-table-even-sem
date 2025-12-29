@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVNIT Electrical Timetable</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@1,600&family=Space+Grotesk:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600&family=Space+Grotesk:wght@700&display=swap');
 
         :root {
             --bg-body: #8fbc8f;
@@ -23,6 +23,7 @@
             --col-lab: #e0f2f1;
             
             --border-strong: #556b2f;
+            --border-light: #c5e1a5;
         }
 
         body {
@@ -30,12 +31,12 @@
             font-family: 'Outfit', sans-serif;
             color: var(--text-main);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            overflow: hidden;
+            padding: 20px 0;
+            overflow-y: auto;
         }
 
         .main-container {
@@ -47,8 +48,8 @@
             display: flex;
             flex-direction: column;
             padding: 15px;
-            max-height: 98vh;
             border: 4px solid #fff;
+            margin-bottom: 30px;
         }
 
         header {
@@ -189,11 +190,7 @@
             border: 1px dashed #cfd8dc;
             opacity: 0.8;
         }
-        .free .subject {
-            color: #b0bec5;
-            font-weight: 400;
-            font-size: 0.75rem;
-        }
+        .free .subject { color: #b0bec5; font-weight: 400; font-size: 0.75rem; }
 
         .lunch-break {
             grid-column: 1 / -1;
@@ -219,7 +216,7 @@
             padding: 10px;
             display: flex;
             justify-content: flex-end;
-            margin-top: auto;
+            margin-top: 10px;
             border-top: 1px solid #f1f8e9;
         }
 
@@ -249,6 +246,71 @@
             font-size: 0.85rem;
         }
 
+        .details-container {
+            width: 96%;
+            max-width: 1100px;
+            background: var(--bg-container);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 20px;
+            border: 4px solid #fff;
+        }
+
+        .details-title {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #2e4a28;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-strong);
+            text-align: center;
+        }
+
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            color: #37474f;
+        }
+
+        .course-table th {
+            background-color: #f1f8e9;
+            color: #33691e;
+            font-weight: 700;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--border-strong);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .course-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .course-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .course-table tr:hover {
+            background-color: #fafafa;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        .tag-credit { background: #e8f5e9; color: #2e7d32; }
+        .tag-room { background: #fff3e0; color: #ef6c00; }
+        
         @media (max-width: 768px) {
             .grid-container { grid-template-columns: 45px repeat(5, 1fr); padding: 5px; gap: 3px; }
             .subject { font-size: 0.7rem; }
@@ -256,7 +318,9 @@
             .room { font-size: 0.55rem; padding: 0 3px; }
             .header-content h1 { font-size: 1.2rem; }
             .card { min-height: 50px; }
-            .header-day { font-size: 0.65rem; }
+            
+            .course-table { display: block; overflow-x: auto; }
+            .course-table th, .course-table td { padding: 8px; min-width: 80px; }
         }
     </style>
 </head>
@@ -416,6 +480,96 @@
                 <span class="sig-name">Surya X Anonymous</span>
             </div>
         </div>
+    </div>
+
+    <div class="details-container">
+        <div class="details-title">Course Details & Faculty</div>
+        <table class="course-table">
+            <thead>
+                <tr>
+                    <th>Slot</th>
+                    <th>Course No</th>
+                    <th>Title</th>
+                    <th>Faculty</th>
+                    <th>Credit</th>
+                    <th>Room</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A1-A4</td>
+                    <td>EE102</td>
+                    <td><b>Electrical Circuits (EC)</b></td>
+                    <td>SNS</td>
+                    <td><span class="tag tag-credit">4</span></td>
+                    <td><span class="tag tag-room">EN-120</span></td>
+                </tr>
+                <tr>
+                    <td>B2, B3, E4</td>
+                    <td>EC108</td>
+                    <td><b>Electronic Devices (EDC)</b></td>
+                    <td>DoECE</td>
+                    <td><span class="tag tag-credit">3</span></td>
+                    <td><span class="tag tag-room">EN-120</span></td>
+                </tr>
+                <tr>
+                    <td>P15, P16</td>
+                    <td>EC108</td>
+                    <td><b>EDC Lab</b></td>
+                    <td>DoECE</td>
+                    <td><span class="tag tag-credit">1</span></td>
+                    <td><span class="tag tag-room">DoECE</span></td>
+                </tr>
+                <tr>
+                    <td>E1-E3</td>
+                    <td>CS110</td>
+                    <td><b>Computer Programming (FoCP)</b></td>
+                    <td>SL</td>
+                    <td><span class="tag tag-credit">3</span></td>
+                    <td><span class="tag tag-room">EN-120</span></td>
+                </tr>
+                <tr>
+                    <td>P17, P18</td>
+                    <td>CS110</td>
+                    <td><b>FoCP Lab</b></td>
+                    <td>SL / MA</td>
+                    <td><span class="tag tag-credit">1</span></td>
+                    <td><span class="tag tag-room">DoCSE</span></td>
+                </tr>
+                <tr>
+                    <td>B1, C1, C4</td>
+                    <td>ME108</td>
+                    <td><b>Thermal Engineering (ATE)</b></td>
+                    <td>DoME</td>
+                    <td><span class="tag tag-credit">3</span></td>
+                    <td><span class="tag tag-room">EN-120</span></td>
+                </tr>
+                <tr>
+                    <td>P11, P12</td>
+                    <td>ME108</td>
+                    <td><b>ATE Lab</b></td>
+                    <td>DoME</td>
+                    <td><span class="tag tag-credit">1</span></td>
+                    <td><span class="tag tag-room">DoME</span></td>
+                </tr>
+                <tr>
+                    <td>D1-D4</td>
+                    <td>MA114</td>
+                    <td><b>Mathematics-II</b></td>
+                    <td>DoM</td>
+                    <td><span class="tag tag-credit">4</span></td>
+                    <td><span class="tag tag-room">EN-120</span></td>
+                </tr>
+                <tr>
+                    <td>C2, C3</td>
+                    <td>HS120</td>
+                    <td><b>Indian Value System (IVSS)</b></td>
+                    <td>DoHSS</td>
+                    <td><span class="tag tag-credit">2</span></td>
+                    <td><span class="tag tag-room">EN-120</span></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 </body>
