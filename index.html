@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600&family=Space+Grotesk:wght@700&display=swap');
 
         :root {
-            --bg-body: #8fbc8f; /* Rich Sage Green */
+            --bg-body: #8fbc8f; 
             --bg-container: #ffffff;
             --text-main: #2c3e50;
             --text-muted: #546e7a;
@@ -39,7 +39,7 @@
             overflow-y: auto;
         }
 
-        /* --- Main Timetable Section --- */
+    
         .main-container {
             width: 96%;
             max-width: 1100px;
@@ -251,7 +251,7 @@
             font-size: 0.85rem;
         }
 
-        /* --- DETAILS TABLE --- */
+        
         .details-container {
             width: 96%;
             max-width: 1100px;
@@ -309,7 +309,7 @@
         .tag-credit { background: #e8f5e9; color: #2e7d32; }
         .tag-room { background: #fff3e0; color: #ef6c00; }
 
-        /* --- SYLLABUS MODAL STYLES --- */
+        
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -453,7 +453,7 @@
             <div class="header-day">THU</div>
             <div class="header-day">FRI</div>
 
-            <!-- Row 1 -->
+            
             <div class="time-slot">8:30<br>9:20</div>
             <div class="card c-ec" onclick="showSyllabus('EE102', 'theory')">
                 <span class="code">A1</span>
@@ -476,7 +476,7 @@
                 <span class="subject">FoCP</span>
             </div>
 
-            <!-- Row 2 -->
+       
             <div class="time-slot">9:30<br>10:20</div>
             <div class="card c-edc" onclick="showSyllabus('EC108', 'theory')">
                 <span class="code">B2</span>
@@ -499,7 +499,7 @@
                 <span class="subject">EC</span>
             </div>
 
-            <!-- Row 3 -->
+            
             <div class="time-slot">10:30<br>11:20</div>
             <div class="card c-ivss" onclick="showSyllabus('HS120', 'theory')">
                 <span class="code">C3</span>
@@ -522,7 +522,7 @@
                 <span class="subject">EDC</span>
             </div>
 
-            <!-- Row 4 -->
+            
             <div class="time-slot">11:30<br>12:20</div>
             <div class="card c-math" onclick="showSyllabus('MA114', 'theory')">
                 <span class="code">D4</span>
@@ -548,7 +548,7 @@
                 <div class="lunch-text">Lunch Break (12:20 - 2:00 PM)</div>
             </div>
 
-            <!-- Lab 1 -->
+            
             <div class="time-slot">2:00<br>3:50</div>
             <div class="card c-lab" onclick="showSyllabus('ME108', 'practical')">
                 <span class="subject">ATE LAB</span>
@@ -569,7 +569,7 @@
                 <span class="subject">Free</span>
             </div>
 
-            <!-- Lab 2 -->
+            
             <div class="time-slot">4:00<br>5:50</div>
             <div class="card c-lab" onclick="showSyllabus('ME108', 'practical')">
                 <span class="subject">ATE LAB</span>
@@ -599,7 +599,7 @@
         </div>
     </div>
 
-    <!-- Course Details Table -->
+    
     <div class="details-container">
         <div class="details-title">Course Details & Faculty</div>
         <table class="course-table">
@@ -690,7 +690,7 @@
         </table>
     </div>
 
-    <!-- Hidden Syllabus Modal -->
+    
     <div class="modal-overlay" id="syllabusModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -701,7 +701,7 @@
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <ul class="syllabus-list" id="modalBody">
-                <!-- Content injected via JS -->
+            
             </ul>
         </div>
     </div>
