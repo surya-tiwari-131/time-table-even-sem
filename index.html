@@ -8,11 +8,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600&family=Space+Grotesk:wght@700&display=swap');
 
         :root {
-            --bg-body: #8fbc8f;
+            --bg-body: #8fbc8f; /* Rich Sage Green */
             --bg-container: #ffffff;
             --text-main: #2c3e50;
             --text-muted: #546e7a;
             
+            /* Subject Colors */
             --col-ec: #fff3e0; 
             --col-ate: #ffebee;
             --col-math: #e1f5fe;
@@ -23,7 +24,6 @@
             --col-lab: #e0f2f1;
             
             --border-strong: #556b2f;
-            --border-light: #c5e1a5;
         }
 
         body {
@@ -39,6 +39,7 @@
             overflow-y: auto;
         }
 
+        /* --- Main Timetable Section --- */
         .main-container {
             width: 96%;
             max-width: 1100px;
@@ -49,7 +50,7 @@
             flex-direction: column;
             padding: 15px;
             border: 4px solid #fff;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         header {
@@ -135,12 +136,14 @@
             transition: transform 0.2s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
         }
 
         .card:hover {
             transform: translateY(-2px);
             z-index: 10;
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: var(--border-strong);
         }
 
         .subject {
@@ -189,8 +192,10 @@
             background-color: var(--col-free);
             border: 1px dashed #cfd8dc;
             opacity: 0.8;
+            cursor: default;
         }
         .free .subject { color: #b0bec5; font-weight: 400; font-size: 0.75rem; }
+        .free:hover { transform: none; box-shadow: none; border-color: #cfd8dc; }
 
         .lunch-break {
             grid-column: 1 / -1;
@@ -246,6 +251,7 @@
             font-size: 0.85rem;
         }
 
+        /* --- DETAILS TABLE --- */
         .details-container {
             width: 96%;
             max-width: 1100px;
@@ -292,14 +298,6 @@
             border-bottom: 1px solid #e0e0e0;
         }
 
-        .course-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .course-table tr:hover {
-            background-color: #fafafa;
-        }
-
         .tag {
             display: inline-block;
             padding: 2px 8px;
@@ -310,18 +308,131 @@
         
         .tag-credit { background: #e8f5e9; color: #2e7d32; }
         .tag-room { background: #fff3e0; color: #ef6c00; }
-        
-        @media (max-width: 768px) {
-            .grid-container { grid-template-columns: 45px repeat(5, 1fr); padding: 5px; gap: 3px; }
-            .subject { font-size: 0.7rem; }
-            .code { display: none; }
-            .room { font-size: 0.55rem; padding: 0 3px; }
-            .header-content h1 { font-size: 1.2rem; }
-            .card { min-height: 50px; }
-            
-            .course-table { display: block; overflow-x: auto; }
-            .course-table th, .course-table td { padding: 8px; min-width: 80px; }
+
+        /* --- SYLLABUS MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px);
         }
+
+        .modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 650px;
+            max-height: 85vh;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative;
+            overflow-y: auto;
+            border: 4px solid #8fbc8f;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e8f5e9;
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            color: #2e4a28;
+            margin: 0;
+        }
+
+        .modal-tag {
+            background: #f1f8e9;
+            color: #558b2f;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover { color: #d32f2f; }
+
+        .syllabus-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .syllabus-list li {
+            padding: 12px;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .syllabus-list li:last-child { border-bottom: none; }
+
+        .unit-number {
+            background: #e8f5e9;
+            color: #2e7d32;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.75rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .unit-content {
+            font-size: 0.9rem;
+            color: #37474f;
+            line-height: 1.5;
+        }
+
+        .unit-title {
+            font-weight: 700;
+            color: #2e4a28;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .unit-hours {
+            font-size: 0.7rem;
+            color: #90a4ae;
+            margin-left: auto;
+            white-space: nowrap;
+            padding-left: 10px;
+            font-weight: 600;
+        }
+
     </style>
 </head>
 <body>
@@ -342,89 +453,93 @@
             <div class="header-day">THU</div>
             <div class="header-day">FRI</div>
 
+            <!-- Row 1 -->
             <div class="time-slot">8:30<br>9:20</div>
-            <div class="card c-ec">
+            <div class="card c-ec" onclick="showSyllabus('EE102', 'theory')">
                 <span class="code">A1</span>
                 <span class="subject">EC (T)</span>
             </div>
-            <div class="card c-ate">
+            <div class="card c-ate" onclick="showSyllabus('ME108', 'theory')">
                 <span class="code">B1</span>
                 <span class="subject">ATE</span>
             </div>
-            <div class="card c-ate">
+            <div class="card c-ate" onclick="showSyllabus('ME108', 'theory')">
                 <span class="code">C1</span>
                 <span class="subject">ATE</span>
             </div>
-            <div class="card c-math">
+            <div class="card c-math" onclick="showSyllabus('MA114', 'theory')">
                 <span class="code">D1</span>
                 <span class="subject">Math-II</span>
             </div>
-            <div class="card c-focp">
+            <div class="card c-focp" onclick="showSyllabus('CS110', 'theory')">
                 <span class="code">E1</span>
                 <span class="subject">FoCP</span>
             </div>
 
+            <!-- Row 2 -->
             <div class="time-slot">9:30<br>10:20</div>
-            <div class="card c-edc">
+            <div class="card c-edc" onclick="showSyllabus('EC108', 'theory')">
                 <span class="code">B2</span>
                 <span class="subject">EDC</span>
             </div>
-            <div class="card c-ivss">
+            <div class="card c-ivss" onclick="showSyllabus('HS120', 'theory')">
                 <span class="code">C2</span>
                 <span class="subject">IVSS</span>
             </div>
-            <div class="card c-math">
+            <div class="card c-math" onclick="showSyllabus('MA114', 'theory')">
                 <span class="code">D2</span>
                 <span class="subject">Math-II</span>
             </div>
-            <div class="card c-focp">
+            <div class="card c-focp" onclick="showSyllabus('CS110', 'theory')">
                 <span class="code">E2</span>
                 <span class="subject">FoCP</span>
             </div>
-            <div class="card c-ec">
+            <div class="card c-ec" onclick="showSyllabus('EE102', 'theory')">
                 <span class="code">A2</span>
                 <span class="subject">EC</span>
             </div>
 
+            <!-- Row 3 -->
             <div class="time-slot">10:30<br>11:20</div>
-            <div class="card c-ivss">
+            <div class="card c-ivss" onclick="showSyllabus('HS120', 'theory')">
                 <span class="code">C3</span>
                 <span class="subject">IVSS</span>
             </div>
-            <div class="card c-math">
+            <div class="card c-math" onclick="showSyllabus('MA114', 'theory')">
                 <span class="code">D3</span>
                 <span class="subject">Math-II</span>
             </div>
-            <div class="card c-focp">
+            <div class="card c-focp" onclick="showSyllabus('CS110', 'theory')">
                 <span class="code">E3</span>
                 <span class="subject">FoCP</span>
             </div>
-            <div class="card c-ec">
+            <div class="card c-ec" onclick="showSyllabus('EE102', 'theory')">
                 <span class="code">A3</span>
                 <span class="subject">EC</span>
             </div>
-            <div class="card c-edc">
+            <div class="card c-edc" onclick="showSyllabus('EC108', 'theory')">
                 <span class="code">B3</span>
                 <span class="subject">EDC</span>
             </div>
 
+            <!-- Row 4 -->
             <div class="time-slot">11:30<br>12:20</div>
-            <div class="card c-math">
+            <div class="card c-math" onclick="showSyllabus('MA114', 'theory')">
                 <span class="code">D4</span>
                 <span class="subject">Math-II</span>
             </div>
-            <div class="card c-edc">
+            <div class="card c-edc" onclick="showSyllabus('EC108', 'theory')">
                 <span class="code">E4</span>
                 <span class="subject">EDC</span>
             </div>
-            <div class="card c-ec">
+            <div class="card c-ec" onclick="showSyllabus('EE102', 'theory')">
                 <span class="code">A4</span>
                 <span class="subject">EC</span>
             </div>
             <div class="card free">
                 <span class="subject">Free</span>
             </div>
-            <div class="card c-ate">
+            <div class="card c-ate" onclick="showSyllabus('ME108', 'theory')">
                 <span class="code">C4</span>
                 <span class="subject">ATE</span>
             </div>
@@ -433,19 +548,20 @@
                 <div class="lunch-text">Lunch Break (12:20 - 2:00 PM)</div>
             </div>
 
+            <!-- Lab 1 -->
             <div class="time-slot">2:00<br>3:50</div>
-            <div class="card c-lab">
+            <div class="card c-lab" onclick="showSyllabus('ME108', 'practical')">
                 <span class="subject">ATE LAB</span>
                 <span class="room">A2 / DoME</span>
             </div>
             <div class="card free">
                 <span class="subject">Free</span>
             </div>
-            <div class="card c-lab">
+            <div class="card c-lab" onclick="showSyllabus('EC108', 'practical')">
                 <span class="subject">EDC LAB</span>
                 <span class="room">A1 / DoECE</span>
             </div>
-            <div class="card c-lab">
+            <div class="card c-lab" onclick="showSyllabus('CS110', 'practical')">
                 <span class="subject">FoCP LAB</span>
                 <span class="room">A1 / DoCSE</span>
             </div>
@@ -453,19 +569,20 @@
                 <span class="subject">Free</span>
             </div>
 
+            <!-- Lab 2 -->
             <div class="time-slot">4:00<br>5:50</div>
-            <div class="card c-lab">
+            <div class="card c-lab" onclick="showSyllabus('ME108', 'practical')">
                 <span class="subject">ATE LAB</span>
                 <span class="room">A1 / DoME</span>
             </div>
             <div class="card free">
                 <span class="subject">Free</span>
             </div>
-            <div class="card c-lab">
+            <div class="card c-lab" onclick="showSyllabus('EC108', 'practical')">
                 <span class="subject">EDC LAB</span>
                 <span class="room">A2 / DoECE</span>
             </div>
-            <div class="card c-lab">
+            <div class="card c-lab" onclick="showSyllabus('CS110', 'practical')">
                 <span class="subject">FoCP LAB</span>
                 <span class="room">A2 / DoCSE</span>
             </div>
@@ -482,6 +599,7 @@
         </div>
     </div>
 
+    <!-- Course Details Table -->
     <div class="details-container">
         <div class="details-title">Course Details & Faculty</div>
         <table class="course-table">
@@ -571,6 +689,186 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Hidden Syllabus Modal -->
+    <div class="modal-overlay" id="syllabusModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="modalTitle">Subject Name</h2>
+                    <span class="modal-tag" id="modalType">TYPE</span>
+                </div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <ul class="syllabus-list" id="modalBody">
+                <!-- Content injected via JS -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const syllabusData = {
+            'EE102': {
+                title: "Electrical Circuits",
+                theory: [
+                    { topic: "GRAPH THEORY AND ITS APPLICATIONS", desc: "Fundamental concepts, definitions of a graph and various related terms, cut sets and tie sets, matrices of oriented graphs, properties and inter relationships of incidence, tie set and cut set matrices, complete circuit analysis using tie set and cut set techniques", hours: "10h" },
+                    { topic: "LAPLACE TRANSFORMATION", desc: "Laplace transform properties and theorems, Laplace transform of standard functions, Laplace transforms for periodic functions, initial and final value theorems, Inverse Laplace transform using partial fraction expansion and convolution integral methods. Waveform synthesis.", hours: "8h" },
+                    { topic: "NETWORK FUNCTIONS AND TWO PORT PARAMETERS", desc: "Poles and zeros of a function, physical and analytical concepts, terminals and terminal pairs, driving point immittances, transfer functions, restrictions on locations of poles and zeros in S plane. time domain behavior from pole zero locations in the S plane, procedure for finding network functions for general two terminal pair network, transfer immittances, two port and N-port networks, Ladder, Lattice, Pie, and Tee networks. Definitions, calculations and interrelationships of impedance, admittance, hybrid, and transmission line parameters for two port networks and their interrelations", hours: "8h" },
+                    { topic: "ONE TERMINAL PAIR NETWORKS", desc: "Reactive networks and their properties, external and internal critical frequencies, separation property for reactive functions and its proof", hours: "5h" },
+                    { topic: "TWO TERMINAL PAIR REACTIVE NETWORKS (FILTERS)", desc: "Ladder network and its decomposition into tee, pie, and L sections, image impedance, image transfer function and applications to LC networks, attenuation and phase shift in symmetrical Tee and Pie networks, constant K-filters, m-derived filters, composite filters, lattice filters, Bartlett’s bisection theorem. Introduction to the active filters", hours: "7h" },
+                    { topic: "AC AND DC TRANSIENTS", desc: "Initial and final conditions of networks and their S-domain equivalent circuits, R-L, R-C and R-L-C DC transients, two mesh transients, R-L, R-C and R-L-C sinusoidal transient analysis using Laplace transform methods, two mesh AC transients, complete response of RL, RC and RLC circuits to step, sinusoidal, exponential, ramp, impulse and the combinations of these excitations.", hours: "7h" }
+                ],
+                practical: []
+            },
+            'EC108': {
+                title: "Electronic Devices & Circuits",
+                theory: [
+                    { topic: "SEMICONDUCTOR DIODES AND APPLICATIONS", desc: "Quantitative theory of PN diode, volt-ampere characteristics, and its temperature dependence, narrow-base diode, transition and diffusion capacitance of p-n junction diodes, breakdown of junctions on the reverse bias, small signal models of the diode, PN diode Application as Rectifier, Half Wave Rectifier, Centre Tap and Bridge Rectifier, Filter circuits, C, LC and pie filter with circuit Diagram and waveforms. Zener Diode theory, Construction, Operation with forward and reverse VI characteristics, Zener Voltage Regulator, construction and application of Schottky and Varactor Diodes.", hours: "10h" },
+                    { topic: "BIPOLAR JUNCTION TRANSISTOR ANALYSIS AND DESIGN", desc: "Introduction to BJT, IV characteristics, Analysis of CE Configuration: Current Amplification in the Transistor Circuits, Power Calculations, Bypass Capacitor, Coupling Capacitors, the concept of AC and DC Load Lines, Different DC Biasing Methods, Fixed Bias, Emitter Stabilized Bias, Potential Divider Bias, DC Bias with voltage Feedback, Common Base Configuration Analysis, Emitter follower, Charge Storage, and transient response, small signal models of BJT, Ebers Moll Model of BJT.", hours: "9h" },
+                    { topic: "FIELD EFFECT TRANSISTOR CIRCUITS", desc: "Introduction to FET, Bias stability in FET, Different FET Configuration, Analysis of CS, CG and CD Configuration, Voltage Biasing Techniques, Common Source Amplifier, MOS Capacitor, Depletion Mode and Inversion, MOSFET Operation and Enhancement Mode of MOSFET, and Transfer Characteristics.", hours: "9h" },
+                    { topic: "SMALL-SIGNAL LOW-FREQUENCY ANALYSIS AND DESIGN", desc: "Hybrid Parameters, CE Configurations, CB Configurations, CS Configurations, CD Configuration, Impedance Reflections, Phase Splitter", hours: "9h" },
+                    { topic: "DEVICES USED FOR POWER ELECTRONICS", desc: "Diac, UJT, SCR, Triac, Power MOSFET, and IGBT.", hours: "8h" }
+                ],
+                practical: [
+                    "Diode Characteristic",
+                    "Rectifiers and Filters",
+                    "Zener as a Voltage Regulator",
+                    "BJT Characteristics",
+                    "BJT Biasing Methods",
+                    "FET Characteristics",
+                    "FET Biasing Methods",
+                    "MOSFET Inverter",
+                    "Common Emitter Amplifier",
+                    "Common Source Amplifier",
+                    "UJT Characteristics",
+                    "SCR or TRIAC Characteristics",
+                    "SPICE Modelling of Diode, BJT and MOSFET",
+                    "MINI-PROJECT Work"
+                ]
+            },
+            'CS110': {
+                title: "Computer Programming (FoCP)",
+                theory: [
+                    { topic: "INTRODUCTION TO COMPUTER AND ITS ARCHITECTURE", desc: "Introduction and Characteristics, Computer Architecture, Generations, Classifications, Applications, Central Processing Unit and Memory, Communication between various Units, Processor Speed, Multiprocessor System, Peripheral Buses, Motherboard Demonstration.", hours: "2h" },
+                    { topic: "MEMORY AND VARIOUS INPUT AND OUTPUT DEVICES", desc: "Introduction to Memory, Input and Output Devices, Memory Hierarchy, Primary Memory and its Types, Secondary Memory, Classification of Secondary Memory, Various Secondary Storage Devices and their Functioning.", hours: "2h" },
+                    { topic: "NUMBER SYSTEMS", desc: "Introduction and type of Number System, Conversion between Number System, Arithmetic Operations in different Number System, Signed and Unsigned Number System.", hours: "1h" },
+                    { topic: "INTRODUCTION TO SYSTEM SOFTWARES AND PROGRAMMING LANGUAGES", desc: "Classification of Computer Languages, Introduction of Operating System, Evolution, Type and Function of OS, Unix Commands, Evolution and Classification of programming Language, Feature and Selection of good Programming Language, Development of Program, Algorithm and Flowchart, Program Testing and Debugging, Program Documentation and Paradigms, Characteristics of good Program.", hours: "5h" },
+                    { topic: "WINDOWS OPERATING SYSTEM AND ITS ENVIRONMENT", desc: "Introduction to GUI based OS, Configuration, Setup, Services, Network Configuration.", hours: "2h" },
+                    { topic: "LINUX OPERATING SYSTEM AND ITS ENVIRONMENT", desc: "Introduction to Unix based OS, Configuration, Setup, Services, Scripting, Network Configuration.", hours: "3h" },
+                    { topic: "DEBUGGING TOOLS AND COMPILER OPTION", desc: "Different Debugging tools, Commands, Memory dump, Register and Variable Tracking, Instruction and Function level debugging, Compiler Options, Profile Generation.", hours: "4h" },
+                    { topic: "DATA COMMUNICATION, COMPUTER NETWORK AND INTERNET BASICS", desc: "Data Communication and Transmission media, Multiplexing and Switching, Computer Network and Network Topology, Communication Protocols and Network Devices, Evolution and Basic Internet Term, Getting Connected to Internet and Internet Application, Email and its working, Searching the Web, Languages of Internet, Internet and Viruses.", hours: "2h" },
+                    { topic: "PROGRAMMING USING ‘C’ LANGUAGE – INTRODUCTION", desc: "Characteristics of C Language, Identifiers and Keywords, Data Types Constants and Variables, Declarations and Statements, Representation of Expressions, Classification of Operators and Library Functions for Data Input and Output Statements, Formatted Input and Output Statements.", hours: "6h" },
+                    { topic: "PROGRAMMING USING ‘C’ LANGUAGE – CONTROL STATEMENT, DATA STRUCTURES, POINTERS", desc: "Conditional Control Statements, Loop Control Statements, One Dimensional Array of Numbers and Characters, Two-Dijmensional Array, Introduction and Development of User Defined Functions, Different Types of Variables and Parameters, Structure and Union, Introduction to Pointers, Pointer Arithmetic, Array of Pointers, Pointers and Functions, Pointers and structures, File Handling Operations.", hours: "6h" },
+                    { topic: "PROGRAMMING USING ‘C’ LANGUAGE – FUNCTIONS", desc: "Functions, Passing the arguments, return values from functions, Recursion, Header Files Design, File handling operations, Read and Write to Secondary Devices, Read and Write to Input and Output Ports.", hours: "6h" },
+                    { topic: "PROGRAMMING USING ‘C’ LANGUAGE – GRAPHICS, DEBUGGING", desc: "Include Graphics Library, Debugging, Linking, Compilation Option for Optimization, Make file.", hours: "6h" }
+                ],
+                practical: [
+                    "Basic commands of Windows and Linux",
+                    "Installing and configuring using Windows and Linux",
+                    "Flow chart drawing and writing pseudo steps or algorithms steps",
+                    "Programming using different data structures",
+                    "Solving complex problems"
+                ]
+            },
+            'ME108': {
+                title: "Applied Thermal Engineering",
+                theory: [
+                    { topic: "THERMODYNAMICS", desc: "Thermodynamics & statistical thermodynamics, Thermodynamic system, properties, states, processes, cycle, equilibrium, Zeroth law of thermodynamics, Definition of work & heat and their evaluation for various thermodynamics processes, First law of thermodynamics for flow and non-flow processes, SFEE, Application of first law of thermodynamics to boilers, engines, turbines, and compressors, Equation of state for ideal gas, Change in entropy, internal energy, enthalpy of gas in various thermodynamics processes.", hours: "9h" },
+                    { topic: "PROPERTIES OF PURE SUBSTANCES", desc: "Definition of pure substance, Phases of a pure substance, P-V-T behavior of a pure substance, Critical & triple point of a pure substance, Mollier diagram, steam table & dryness fraction of steam, Measurement of dryness fraction of steam.", hours: "7h" },
+                    { topic: "THERMAL POWER PLANT", desc: "Review of Thermodynamic cycle for Power Plants. Simple steam power cycle, Rankine cycle, Rankine cycle efficiency, Comparison of Rankine & Carnot cycles. Reheat cycle, Regenerative cycle, Reheat -regenerative cycle", hours: "8h" },
+                    { topic: "STEAM TURBINES", desc: "Steam Nozzles: Introduction, Types of nozzles, Flow of steam through nozzles, Expansion of steam considering friction, Nozzle efficiency, Super-saturated flow through nozzle, Examples. Steam Turbines, Impulse Turbine: Working principle, Forces on blades, Velocity diagrams, efficiency of multi stage turbine, Specific speed and performance, characteristic curves for impulse turbine. Impulse Reaction Turbine: Working principle, Degree of reaction, Compounding of pressure and velocity.", hours: "7h" },
+                    { topic: "HYDRAULIC TURBINES", desc: "Working principle of impulse and reaction turbines, construction details and working of Pelton, Francis and Kaplan turbine, draft tube, velocity triangles, degree of reaction, losses, power and efficiency calculations, cavitation in reaction turbines,", hours: "6h" },
+                    { topic: "HYDRAULIC PUMPS", desc: "Principle of dynamic action & positive displacement type of pump, classification, main components of centrifugal pump and function, priming, velocity triangle, work done and energy transfer in the centrifugal pump, losses, heads, and various efficiencies of the pump", hours: "8h" }
+                ],
+                practical: [
+                    "Performance test on gearpump",
+                    "Performance test on a centrifugal pump",
+                    "Study and performance of conventional water turbines",
+                    "Performance study of unconventional low turbines",
+                    "Performance study of unconventional hydrokinetic turbines",
+                    "Estimation of power output & efficiency of a steam turbine",
+                    "Study of the condenser and cooling tower"
+                ]
+            },
+            'MA114': {
+                title: "Mathematics-II",
+                theory: [
+                    { topic: "PARTIAL DIFFERENTIATION", desc: "Partial differentiation, Euler’s theorem for homogeneous function, Modified Euler’s theorem, Taylor’s and Maclaurin’s series for two variables. Tangent plane and Normal line, Error and Approximation, Jacobians with properties, Extreme values of function of two variables, Lagrange’s methods of undetermined multipliers", hours: "10h" },
+                    { topic: "INTRODUCTION TO PARTIAL DIFFERENTIAL EQUATION", desc: "Introduction to Partial differential equation, Formation of partial differential Equation, Partial differential Equation of first order, Linear partial differential equation of first order (Pp + Qq=R) and method of obtaining its general solution, Non-linear partial differential equation of first order f(p, q)=0, f(z, p, q)=0, f(x, p)= g(y, q), z= px + qy + f(p, q).", hours: "9h" },
+                    { topic: "DOUBLE AND TRIPLE INTEGRALS", desc: "Reorientation of concepts of integrals and Double integrals, evaluation techniques, change of order of Integration, change of variable, Application of double integrals for evaluation of area and volume. Triple integrals, evaluation techniques, Application of triple integrals for evaluation of volume", hours: "10h" },
+                    { topic: "VECTOR CALCULUS", desc: "Scalar and vector point function, differential operator, gradient, directional derivative, divergence, curl and Laplacian operator with their properties, Line integral, Surface Integral, Volume integral, Green’s, Gauss and Stokes theorem (Only statement) & application.", hours: "8h" },
+                    { topic: "INFINITE SERIES", desc: "Introduction, Positive term series, Comparison test, Cauchy’s root test, D’Alembert’s test, Raabe’s test, Logarithmic test, Integral test, Gauss’s test, Series with arbitrary terms, Rearrangement of terms", hours: "8h" }
+                ],
+                practical: []
+            },
+            'HS120': {
+                title: "Indian Value System (IVSS)",
+                theory: [
+                    { topic: "HUMAN VALUES AND CONSCIOUSNESS", desc: "Human Values Definition and Classification of Values; The Problem of Hierarchy of Values and their Choice; Self-Exploration; ‘Basic Human Aspirations; Right understanding, Relationship and Physical Facility; fulfilment of aspirations; Understanding Happiness and Prosperity, Harmony at various levels. What Is Consciousness? ; Can We Build A Conscious Machine?; Levels Of Consciousness; Mind, Matter And Beyond; Holistic Lifestyle; Dealing With Anxiety; Connecting Mind To Brain; Minds, Brains, And Programs.", hours: "8h" },
+                    { topic: "INDIAN CULTURE AND HERITAGE", desc: "Culture and its salient features: The Vedic – Upanishadic Culture and society, Human aspirations in those societies; Culture in Ramayana and Mahabharata: The Ideal Man and Woman, Concepts Maitri, Karuna, Seela, Vinaya, Kshama, Santi, Anuraga – as exemplified in the stories and anecdotes of the Epics; The Culture of Jainism: Jaina conception of Soul, Karma and liberation, Buddhism as a Humanistic culture; The four Noble truths of Buddhism; Vedanta and Indian Culture;", hours: "7h" },
+                    { topic: "INDIAN KNOWLEDGE SYSTEM", desc: "Indian knowledge as a unique system, Place of Indian knowledge in mankind’s evolution, Relevance of Indian knowledge to present day and future of mankind, Nature of Indian Knowledge; Structure of Indian Knowledge: Types of knowledge (para, apara), The scientific and the unscientific, Instruments for gaining and verifying knowledge, Knowledge traditions: Lineages, Instruments - debate, epistemology and pedagogy, The inverted tree – axiomatic, deductive, empirical knowledge, and evolution of knowledge; Disciplines of Study: A brief outline of the subjects, the major contributions and theories along with timelines where relevant: Mathematics; Astronomy; Physical Sciences; Cosmogony; Language studies; Astrology; Moral studies/righteousness; Statecraft and political philosophy", hours: "8h" },
+                    { topic: "INDIAN CONSTITUTION", desc: "History of Making of the Indian Constitution; Philosophy of the Indian Constitution: Preamble; Salient Features; Contours of Constitutional Rights & Duties; Organs of Governance: Parliament; Composition; Qualifications and Disqualifications; Powers and Functions", hours: "4h" },
+                    { topic: "SOCIAL RESPONSIBILITY", desc: "Social Responsibility: Meaning and Importance, Different Approaches of Social Responsibility. Social Responsibility of Business towards different Stakeholders. Evolution and Legislation of CSR in India.", hours: "3h" }
+                ],
+                practical: []
+            }
+        };
+
+        function showSyllabus(code, type) {
+            const modal = document.getElementById('syllabusModal');
+            const title = document.getElementById('modalTitle');
+            const typeSpan = document.getElementById('modalType');
+            const body = document.getElementById('modalBody');
+            
+            const data = syllabusData[code];
+            
+            if(data) {
+                title.innerText = data.title;
+                body.innerHTML = ""; 
+                
+                if (type === 'practical' && data.practical.length > 0) {
+                    typeSpan.innerText = "List of Experiments";
+                    data.practical.forEach((item, index) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <span class="unit-number">${index + 1}</span>
+                            <div class="unit-content">
+                                <span class="unit-title">${item}</span>
+                            </div>
+                        `;
+                        body.appendChild(li);
+                    });
+                } else {
+                    typeSpan.innerText = "Theory Syllabus";
+                    data.theory.forEach((item, index) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <span class="unit-number">${index + 1}</span>
+                            <div class="unit-content">
+                                <span class="unit-title">${item.topic}</span>
+                                ${item.desc}
+                            </div>
+                            <span class="unit-hours">${item.hours}</span>
+                        `;
+                        body.appendChild(li);
+                    });
+                }
+                
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('syllabusModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('syllabusModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
