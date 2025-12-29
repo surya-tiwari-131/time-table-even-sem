@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVNIT Electrical Timetable - Div A</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lato:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Dancing+Script:wght@600&display=swap');
+
+        :root {
+            --copper-solid: #b87333;
+            --copper-dark: #8c501c;
+            --nature-dark: #2c3e2e; /* Forest Green */
+            --nature-light: #6a8a6d; /* Sage */
+            --paper-bg: #fdfbf7;
+            --card-bg: #ffffff;
+            --text-main: #222;
+            --slot-border: #e0dacc;
+        }
+
+        body {
+            background-color: #e8e4dc;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b87333' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            font-family: 'Lato', sans-serif;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .planner-container {
+            width: 100%;
+            max-width: 1250px;
+            background-color: var(--paper-bg);
+            border-radius: 12px;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(184, 115, 51, 0.4);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #2c3e2e 0%, #1a261b 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--copper-solid);
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            background: linear-gradient(to bottom, #fff, #e0aa79);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #e0aa79;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Timetable Grid */
+        .timetable {
+            display: grid;
+            grid-template-columns: 90px repeat(5, 1fr);
+            gap: 1px;
+            background-color: var(--slot-border);
+            border: 15px solid var(--paper-bg);
+        }
+
+        /* Headers */
+        .day-header {
+            background: #fff;
+            color: var(--nature-dark);
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-align: center;
+            padding: 15px 5px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--copper-solid);
+        }
+
+        .time-col {
+            background-color: var(--nature-light);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 10px 2px;
+            line-height: 1.4;
+        }
+
+        /* Slots */
+        .slot {
+            background-color: var(--card-bg);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 90px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .slot:hover {
+            background-color: #fcf9f2;
+            transform: scale(1.02);
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .subject {
+            font-weight: 900;
+            color: var(--nature-dark);
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .code {
+            font-size: 0.75rem;
+            color: var(--copper-dark);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .room {
+            font-size: 0.7rem;
+            color: #555;
+            background: #e8e4dc;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* Free Slot Styling */
+        .type-free {
+            background-color: #f4f4f4;
+            color: #bbb;
+        }
+        .type-free .subject {
+            color: #ccc;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        .type-free:hover {
+            transform: none;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        /* Lab Styling */
+        .type-lab {
+            background-color: #f1f8f4;
+            border-left: 4px solid var(--nature-dark);
+        }
+        
+        /* Subject Specific Accents (Top Border) */
+        .sub-ec { border-top: 3px solid #b87333; }   /* Copper */
+        .sub-ate { border-top: 3px solid #d9534f; }  /* Heat/Red */
+        .sub-math { border-top: 3px solid #4682b4; } /* Logic/Blue */
+        .sub-edc { border-top: 3px solid #e0aa79; }  /* Silicon/Sand */
+        .sub-focp { border-top: 3px solid #6a8a6d; } /* Code/Green */
+        .sub-ivss { border-top: 3px solid #aa66cc; } /* Values/Purple */
+
+        /* Lunch */
+        .lunch {
+            grid-column: 1 / -1;
+            background-color: #fff8e1;
+            color: var(--copper-dark);
+            text-align: center;
+            padding: 10px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            border-top: 1px dashed var(--copper-solid);
+            border-bottom: 1px dashed var(--copper-solid);
+        }
+
+        /* Footer / Credit */
+        .footer {
+            padding: 15px;
+            text-align: right;
+            background-color: var(--paper-bg);
+            border-top: 1px solid #e0dacc;
+        }
+
+        .credit-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: var(--copper-solid);
+            padding-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .timetable { grid-template-columns: 50px repeat(5, 1fr); border: 5px solid var(--paper-bg); }
+            .subject { font-size: 0.8rem; }
+            .code, .room { display: none; }
+            h1 { font-size: 1.4rem; }
+            .type-free .subject { font-size: 0.7rem; }
+            .credit-text { text-align: center; padding-right: 0; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="planner-container">
+        <header>
+            <h1>SVNIT ELECTRICAL</h1>
+            <div class="subtitle">B.Tech I (Div A) | Session 2025-26</div>
+        </header>
+
+        <div class="timetable">
+            <!-- Header Row -->
+            <div class="time-col" style="background:var(--nature-dark)">TIME</div>
+            <div class="day-header">MON</div>
+            <div class="day-header">TUE</div>
+            <div class="day-header">WED</div>
+            <div class="day-header">THU</div>
+            <div class="day-header">FRI</div>
+
+            <!-- 08:30 - 09:20 -->
+            <div class="time-col">08:30<br>09:20</div>
+            <div class="slot sub-ec">
+                <div class="code">A1</div>
+                <div class="subject">EC (Tut)</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-ate">
+                <div class="code">B1</div>
+                <div class="subject">ATE</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-ate">
+                <div class="code">C1</div>
+                <div class="subject">ATE</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-math">
+                <div class="code">D1</div>
+                <div class="subject">Math-II</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-focp">
+                <div class="code">E1</div>
+                <div class="subject">FoCP</div>
+                <div class="room">EN-120</div>
+            </div>
+
+            <!-- 09:30 - 10:20 -->
+            <div class="time-col">09:30<br>10:20</div>
+            <div class="slot sub-edc">
+                <div class="code">B2</div>
+                <div class="subject">EDC</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-ivss">
+                <div class="code">C2</div>
+                <div class="subject">IVSS</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-math">
+                <div class="code">D2</div>
+                <div class="subject">Math-II</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-focp">
+                <div class="code">E2</div>
+                <div class="subject">FoCP</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-ec">
+                <div class="code">A2</div>
+                <div class="subject">EC</div>
+                <div class="room">EN-120</div>
+            </div>
+
+            <!-- 10:30 - 11:20 -->
+            <div class="time-col">10:30<br>11:20</div>
+            <div class="slot sub-ivss">
+                <div class="code">C3</div>
+                <div class="subject">IVSS</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-math">
+                <div class="code">D3</div>
+                <div class="subject">Math-II</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-focp">
+                <div class="code">E3</div>
+                <div class="subject">FoCP</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-ec">
+                <div class="code">A3</div>
+                <div class="subject">EC</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-edc">
+                <div class="code">B3</div>
+                <div class="subject">EDC</div>
+                <div class="room">EN-120</div>
+            </div>
+
+            <!-- 11:30 - 12:20 -->
+            <div class="time-col">11:30<br>12:20</div>
+            <div class="slot sub-math">
+                <div class="code">D4</div>
+                <div class="subject">Math-II</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-edc">
+                <div class="code">E4</div>
+                <div class="subject">EDC</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot sub-ec">
+                <div class="code">A4</div>
+                <div class="subject">EC</div>
+                <div class="room">EN-120</div>
+            </div>
+            <div class="slot type-free">
+                <div class="subject">FREE</div>
+            </div>
+            <div class="slot sub-ate">
+                <div class="code">C4</div>
+                <div class="subject">ATE</div>
+                <div class="room">EN-120</div>
+            </div>
+
+            <!-- LUNCH -->
+            <div class="lunch">LUNCH BREAK (12:20 - 14:00)</div>
+
+            <!-- 14:00 - 15:50 (LABS) -->
+            <div class="time-col">14:00<br>15:50</div>
+            <div class="slot type-lab">
+                <div class="code">P11 (A2)</div>
+                <div class="subject">ATE LAB</div>
+                <div class="room">DoME</div>
+            </div>
+            <div class="slot type-free">
+                <div class="subject">FREE</div>
+            </div>
+            <div class="slot type-lab">
+                <div class="code">P15 (A1)</div>
+                <div class="subject">EDC LAB</div>
+                <div class="room">DoECE</div>
+            </div>
+            <div class="slot type-lab">
+                <div class="code">P17 (A1)</div>
+                <div class="subject">FoCP LAB</div>
+                <div class="room">DoCSE</div>
+            </div>
+            <div class="slot type-free">
+                <div class="subject">FREE</div>
+            </div>
+
+            <!-- 16:00 - 17:50 (LABS) -->
+            <div class="time-col">16:00<br>17:50</div>
+            <div class="slot type-lab">
+                <div class="code">P12 (A1)</div>
+                <div class="subject">ATE LAB</div>
+                <div class="room">DoME</div>
+            </div>
+            <div class="slot type-free">
+                <div class="subject">FREE</div>
+            </div>
+            <div class="slot type-lab">
+                <div class="code">P16 (A2)</div>
+                <div class="subject">EDC LAB</div>
+                <div class="room">DoECE</div>
+            </div>
+            <div class="slot type-lab">
+                <div class="code">P18 (A2)</div>
+                <div class="subject">FoCP LAB</div>
+                <div class="room">DoCSE</div>
+            </div>
+            <div class="slot type-free">
+                <div class="subject">FREE</div>
+            </div>
+        </div>
+             <div class="footer-plate">
+                     <div class="gold-tag">
+                <span class="tag-text">DESIGNED BY</span>
+                <span class="signature-text">Surya</span>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
