@@ -5,24 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVNIT Electrical Timetable - Div A</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lato:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Dancing+Script:wght@600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lato:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Dancing+Script:wght@700&family=Rajdhani:wght@600&display=swap');
 
         :root {
-            --copper-solid: #b87333;
-            --copper-dark: #8c501c;
-            --nature-dark: #2c3e2e; /* Forest Green */
-            --nature-light: #6a8a6d; /* Sage */
-            --paper-bg: #fdfbf7;
+            --copper-main: #b87333;
+            --copper-light: #d69866;
+            --nature-deep: #1e2b26; 
+            --nature-mid: #3d5248;
+            --nature-soft: #8ca399;
+            --paper-bg: #f4f1ea;
             --card-bg: #ffffff;
-            --text-main: #222;
-            --slot-border: #e0dacc;
+            --text-dark: #2d2d2d;
+            --border-color: #d8d0c0;
+            
+            /* Earthy Subject Colors */
+            --acc-clay: #c26a5a;
+            --acc-slate: #5b7c85;
+            --acc-moss: #6b8c42;
+            --acc-sand: #d4a559;
+            --acc-wood: #8c705f;
         }
 
         body {
-            background-color: #e8e4dc;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b87333' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-color: #e6e2dd;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b87333' fill-opacity='0.08' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Lato', sans-serif;
-            color: var(--text-main);
+            color: var(--text-dark);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,70 +43,78 @@
             width: 100%;
             max-width: 1250px;
             background-color: var(--paper-bg);
-            border-radius: 12px;
+            border-radius: 8px;
             box-shadow: 
-                0 20px 40px rgba(0,0,0,0.15),
-                0 0 0 1px rgba(184, 115, 51, 0.4);
+                0 25px 50px rgba(30, 43, 38, 0.2),
+                0 0 0 1px rgba(184, 115, 51, 0.3);
             overflow: hidden;
-            position: relative;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* Header Section */
         header {
-            background: linear-gradient(135deg, #2c3e2e 0%, #1a261b 100%);
-            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--nature-deep) 0%, #131c18 100%);
+            padding: 35px 20px;
             text-align: center;
-            border-bottom: 4px solid var(--copper-solid);
+            border-bottom: 5px solid var(--copper-main);
             position: relative;
+        }
+
+        /* Copper Line Accent in Header */
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
         }
 
         h1 {
             font-family: 'Cinzel', serif;
             color: #fff;
             margin: 0;
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             letter-spacing: 4px;
-            background: linear-gradient(to bottom, #fff, #e0aa79);
+            background: linear-gradient(to bottom, #fff 40%, #e0aa79 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
         .subtitle {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            color: #e0aa79;
-            margin-top: 10px;
-            font-size: 1.1rem;
+            color: var(--copper-light);
+            margin-top: 8px;
+            font-size: 1.15rem;
             letter-spacing: 1px;
         }
 
-        /* Timetable Grid */
         .timetable {
             display: grid;
             grid-template-columns: 90px repeat(5, 1fr);
-            gap: 1px;
-            background-color: var(--slot-border);
-            border: 15px solid var(--paper-bg);
+            gap: 2px;
+            background-color: var(--border-color);
+            border: 12px solid var(--paper-bg);
         }
 
-        /* Headers */
         .day-header {
             background: #fff;
-            color: var(--nature-dark);
+            color: var(--nature-deep);
             font-family: 'Cinzel', serif;
             font-weight: 700;
             text-align: center;
             padding: 15px 5px;
             font-size: 1.1rem;
-            border-bottom: 2px solid var(--copper-solid);
+            border-bottom: 3px solid var(--copper-main);
         }
 
         .time-col {
-            background-color: var(--nature-light);
-            color: white;
+            background-color: var(--nature-mid);
+            color: #f0f0f0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -108,9 +124,10 @@
             text-align: center;
             padding: 10px 2px;
             line-height: 1.4;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
         }
 
-        /* Slots */
         .slot {
             background-color: var(--card-bg);
             padding: 10px;
@@ -119,32 +136,31 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            min-height: 90px;
+            min-height: 95px;
+            transition: all 0.2s ease;
             position: relative;
-            transition: all 0.3s ease;
         }
 
         .slot:hover {
-            background-color: #fcf9f2;
-            transform: scale(1.02);
-            z-index: 5;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-color: #fffdf5;
+            box-shadow: inset 0 0 0 2px var(--copper-main);
+            z-index: 2;
         }
 
         .subject {
             font-weight: 900;
-            color: var(--nature-dark);
-            font-size: 1.2rem;
+            color: var(--nature-deep);
+            font-size: 1.25rem;
             margin-bottom: 4px;
         }
 
         .code {
             font-size: 0.75rem;
-            color: var(--copper-dark);
+            color: var(--copper-main);
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
 
         .room {
@@ -152,78 +168,122 @@
             color: #555;
             background: #e8e4dc;
             padding: 3px 8px;
-            border-radius: 12px;
+            border-radius: 4px;
             font-weight: 600;
+            border: 1px solid #d8d0c0;
         }
 
-        /* Free Slot Styling */
         .type-free {
-            background-color: #f4f4f4;
-            color: #bbb;
+            background-color: #efede8;
+            background-image: radial-gradient(#d0c8b0 1px, transparent 1px);
+            background-size: 10px 10px;
         }
         .type-free .subject {
-            color: #ccc;
+            color: #a8a090;
             font-size: 1rem;
             font-weight: 400;
             letter-spacing: 2px;
         }
         .type-free:hover {
-            transform: none;
             box-shadow: none;
-            cursor: default;
+            background-color: #efede8;
         }
 
-        /* Lab Styling */
         .type-lab {
-            background-color: #f1f8f4;
-            border-left: 4px solid var(--nature-dark);
+            background-color: #f0f5f3; /* Very light sage */
+            border-left: 5px solid var(--nature-mid);
         }
-        
-        /* Subject Specific Accents (Top Border) */
-        .sub-ec { border-top: 3px solid #b87333; }   /* Copper */
-        .sub-ate { border-top: 3px solid #d9534f; }  /* Heat/Red */
-        .sub-math { border-top: 3px solid #4682b4; } /* Logic/Blue */
-        .sub-edc { border-top: 3px solid #e0aa79; }  /* Silicon/Sand */
-        .sub-focp { border-top: 3px solid #6a8a6d; } /* Code/Green */
-        .sub-ivss { border-top: 3px solid #aa66cc; } /* Values/Purple */
+        .type-lab .subject { color: var(--nature-deep); font-size: 1.1rem;}
 
-        /* Lunch */
+        /* Subject Colors */
+        .sub-ec { border-top: 4px solid var(--copper-main); }
+        .sub-ate { border-top: 4px solid var(--acc-clay); }
+        .sub-math { border-top: 4px solid var(--acc-slate); }
+        .sub-edc { border-top: 4px solid var(--acc-sand); }
+        .sub-focp { border-top: 4px solid var(--acc-moss); }
+        .sub-ivss { border-top: 4px solid var(--acc-wood); }
+
         .lunch {
             grid-column: 1 / -1;
-            background-color: #fff8e1;
-            color: var(--copper-dark);
+            background-color: #fffaf0;
+            color: var(--copper-main);
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             font-family: 'Cinzel', serif;
             font-weight: bold;
-            font-size: 0.95rem;
-            letter-spacing: 3px;
-            border-top: 1px dashed var(--copper-solid);
-            border-bottom: 1px dashed var(--copper-solid);
+            font-size: 1rem;
+            letter-spacing: 4px;
+            border-top: 1px dashed var(--copper-light);
+            border-bottom: 1px dashed var(--copper-light);
+            margin: 5px 0;
         }
 
-        /* Footer / Credit */
-        .footer {
-            padding: 15px;
-            text-align: right;
+        .footer-plate {
+            display: flex;
+            justify-content: flex-end;
+            padding: 25px 30px;
             background-color: var(--paper-bg);
-            border-top: 1px solid #e0dacc;
+            border-top: 1px solid var(--border-color);
         }
 
-        .credit-text {
+        /* Improved Gold Plate */
+        .gold-tag {
+            background: radial-gradient(ellipse at center, #ffd700 0%, #d4af37 60%, #b8860b 100%);
+            padding: 12px 30px;
+            border-radius: 6px;
+            border: 2px solid #8b5a2b;
+            box-shadow: 
+                0 4px 10px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        /* Rivets */
+        .gold-tag::before, .gold-tag::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #5c3a21 0%, #2b1d12 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: inset 2px 2px 3px rgba(0,0,0,0.5);
+        }
+        .gold-tag::before { left: 10px; }
+        .gold-tag::after { right: 10px; }
+
+        .tag-text {
+            font-family: 'Rajdhani', sans-serif;
+            color: #3d2616;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .signature-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.3rem;
-            color: var(--copper-solid);
-            padding-right: 20px;
+            color: #2b1200;
+            font-size: 2rem;
+            margin-left: 5px;
+            line-height: 0.8;
+            font-weight: 700;
+            transform: rotate(-2deg);
         }
 
         @media (max-width: 768px) {
             .timetable { grid-template-columns: 50px repeat(5, 1fr); border: 5px solid var(--paper-bg); }
-            .subject { font-size: 0.8rem; }
+            .subject { font-size: 0.85rem; }
             .code, .room { display: none; }
-            h1 { font-size: 1.4rem; }
+            h1 { font-size: 1.5rem; }
             .type-free .subject { font-size: 0.7rem; }
-            .credit-text { text-align: center; padding-right: 0; font-size: 1.1rem; }
+            .gold-tag { padding: 10px 25px; }
+            .signature-text { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -236,15 +296,13 @@
         </header>
 
         <div class="timetable">
-            <!-- Header Row -->
-            <div class="time-col" style="background:var(--nature-dark)">TIME</div>
+            <div class="time-col">TIME</div>
             <div class="day-header">MON</div>
             <div class="day-header">TUE</div>
             <div class="day-header">WED</div>
             <div class="day-header">THU</div>
             <div class="day-header">FRI</div>
 
-            <!-- 08:30 - 09:20 -->
             <div class="time-col">08:30<br>09:20</div>
             <div class="slot sub-ec">
                 <div class="code">A1</div>
@@ -272,7 +330,6 @@
                 <div class="room">EN-120</div>
             </div>
 
-            <!-- 09:30 - 10:20 -->
             <div class="time-col">09:30<br>10:20</div>
             <div class="slot sub-edc">
                 <div class="code">B2</div>
@@ -300,7 +357,6 @@
                 <div class="room">EN-120</div>
             </div>
 
-            <!-- 10:30 - 11:20 -->
             <div class="time-col">10:30<br>11:20</div>
             <div class="slot sub-ivss">
                 <div class="code">C3</div>
@@ -328,7 +384,6 @@
                 <div class="room">EN-120</div>
             </div>
 
-            <!-- 11:30 - 12:20 -->
             <div class="time-col">11:30<br>12:20</div>
             <div class="slot sub-math">
                 <div class="code">D4</div>
@@ -354,10 +409,8 @@
                 <div class="room">EN-120</div>
             </div>
 
-            <!-- LUNCH -->
             <div class="lunch">LUNCH BREAK (12:20 - 14:00)</div>
 
-            <!-- 14:00 - 15:50 (LABS) -->
             <div class="time-col">14:00<br>15:50</div>
             <div class="slot type-lab">
                 <div class="code">P11 (A2)</div>
@@ -381,7 +434,6 @@
                 <div class="subject">FREE</div>
             </div>
 
-            <!-- 16:00 - 17:50 (LABS) -->
             <div class="time-col">16:00<br>17:50</div>
             <div class="slot type-lab">
                 <div class="code">P12 (A1)</div>
@@ -405,10 +457,11 @@
                 <div class="subject">FREE</div>
             </div>
         </div>
-             <div class="footer-plate">
-                     <div class="gold-tag">
-                <span class="tag-text">DESIGNED BY</span>
-                <span class="signature-text">Surya</span>
+        
+        <div class="footer-plate">
+            <div class="gold-tag">
+                <span class="tag-text"> CO-DESIGNED BY</span>
+                <span class="signature-text">Surya X Anonymous</span>
             </div>
         </div>
         
